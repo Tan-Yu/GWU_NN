@@ -121,3 +121,54 @@ class Dense(Layer):
         if self.add_bias:
             self.bias -= learning_rate * output_error
         return input_error
+
+class Conv2DLayer(Layer):
+    def __init__(self, filters, kernel_size, strides=(1, 1), padding='valid', activation=None, input_size=None):
+        super().__init__(activation)
+        self.type = "Conv2D"
+        self.filters = filters
+        self.kernel_size = kernel_size
+        self.strides = strides
+        self.padding = padding
+        self.input_size = input_size
+        self.output_size = None  # New attribute to store output size
+
+    def init_weights(self, input_size):
+        if self.input_size is None:
+            self.input_size = input_size
+
+        # Calculate output size based on input size, kernel size, and strides
+        self.output_size = (
+            (input_size[0] - self.kernel_size[0]) // self.strides[0] + 1,
+            (input_size[1] - self.kernel_size[1]) // self.strides[1] + 1,
+            self.filters
+        )
+
+        self.weights = np.random.randn(self.kernel_size[0], self.kernel_size[1], input_size[-1], self.filters)
+
+    @apply_activation_forward
+    def forward_propagation(self, input):
+        self.input = input
+        output = np.zeros(self.output_size)
+        for i in range(output.shape[0]):
+            for j in range(output.shape[1]):
+                receptive_field = input[i * self.strides[0]:i * self.strides[0] + self.kernel_size[0],
+                                       j * self.strides[1]:j * self.strides[1] + self.kernel_size[1], :, np.newaxis]
+                output[i, j, :] = np.sum(receptive_field * self.weights, axis=(0, 1, 2))
+        return output
+
+    @apply_activation_backward
+    def backward_propagation(self, output_error, learning_rate):
+        input_error = np.zeros_like(self.input)
+        for i in range(output_error.shape[0]):
+            for j in range(output_error.shape[1]):
+                for f in range(self.filters):
+                    input_error[i * self.strides[0]:i * self.strides[0] + self.kernel_size[0],
+                                j * self.strides[1]:j * self.strides[1] + self.kernel_size[1], :] += \
+                        output_error[i, j, f] * self.weights[:, :, :, f]
+                    self.weights[:, :, :, f] -= learning_rate * np.sum(
+                        self.input[i * self.strides[0]:i * self.strides[0] + self.kernel_size[0],
+                                    j * self.strides[1]:j * self.strides[1] + self.kernel_size[1], :, np.newaxis]
+                        * output_error[i, j, f], axis=-1
+                    )
+        return input_error
