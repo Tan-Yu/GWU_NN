@@ -219,11 +219,52 @@ The repository includes experiments with various CNN models for furniture detect
 **Note:**
 - The additional dense layers may capture more complex patterns but could also lead to overfitting, so regularization techniques or adjustments may be needed based on specific dataset characteristics and training performance.
 
+## Compilation Methods
 
-### License
+### Method #1: Huber Loss**
+
+**Optimizer:**
+```python
+optimizer = Adam(learning_rate=0.001)
+```
+It uses the Adam optimizer for updating the model weights during training. Adam is a popular optimization algorithm, and the specified learning rate is set to 0.001.
+
+**Loss Function:**
+```python
+loss = 'huber_loss'
+```
+The loss function used during training is Huber loss. Huber loss is a robust regression loss that combines the best properties of mean squared error (MSE) and mean absolute error (MAE). It is less sensitive to outliers than MSE.
+
+**Metrics for Evaluation:**
+```python
+metrics = ['accuracy']
+```
+During training, the model's performance is evaluated based on accuracy. This metric is commonly used for classification tasks.
+
+### Method #2: ExponentialDecay**
+
+**Learning Rate Schedule:**
+```python
+initial_learning_rate = 0.001
+lr_schedule = ExponentialDecay(initial_learning_rate, decay_steps=100, decay_rate=0.9, staircase=True)
+```
+Defines an exponential decay learning rate schedule. The learning rate will decay exponentially over time. `decay_steps` is the number of steps after which the decay happens, `decay_rate` is the rate of decay, and `staircase=True` implies a step-wise decay.
+
+**Model Compilation:**
+```python
+model.compile(optimizer=Adam(learning_rate=lr_schedule), loss='huber_loss', metrics=['accuracy'])
+```
+Configures the model for training. It uses the Adam optimizer with a learning rate scheduled by `lr_schedule`. The loss function is set to Huber loss, and the model's performance is evaluated based on accuracy during training. The adaptive learning rate helps in adjusting the learning rate dynamically during training.
+
+**Key Points:**
+- The first model utilizes Huber loss, a robust regression loss, and evaluates accuracy as a metric during training.
+- The second model incorporates an exponential decay learning rate schedule to dynamically adjust the learning rate during training.
+
+
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-### Acknowledgments
+## Acknowledgments
 
 Special thanks to the open-source community for providing valuable resources and tools used in this project.
