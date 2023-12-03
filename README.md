@@ -1,6 +1,4 @@
-# Project Title
-
-## Furniture Detection with TensorFlow
+# Furniture Detection with TensorFlow
 
 ### Overview
 
@@ -52,12 +50,175 @@ valid_generator = datagen.flow_from_dataframe(...)
 ### Experimenting with Models
 
 The repository includes experiments with various CNN models for furniture detection. The script explores different architectures, including convolutional layers, pooling, flattening, dense layers, dropout, batch normalization, and more. Additionally, it employs the Adam optimizer, early stopping, and learning rate reduction techniques for model training.
+# Experimented Models
 
-Feel free to explore the code and adapt it to your specific needs. Experiment with different model architectures, hyperparameters, and training strategies to achieve optimal results for your furniture detection task.
+## Model #1
 
-### Contributing
+**Input Layer:**
+- Input shape: (300, 300, 3) representing a 300x300 pixel image with 3 color channels (RGB).
 
-If you'd like to contribute to this project, please fork the repository and submit pull requests. We welcome any improvements, bug fixes, or additional features.
+**Convolutional Layers:**
+- Conv2D(64, (3, 3), activation='relu'): 64 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling with a 2x2 pool size to down-sample the spatial dimensions.
+- Dropout(0.25): Regularization layer to prevent overfitting.
+- Conv2D(128, (3, 3), activation='relu'): 128 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Conv2D(256, (3, 3), activation='relu'): 256 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+
+**Flatten Layer:**
+- Flattens the output from the previous layers into a 1D array to be fed into dense layers.
+
+**Fully Connected (Dense) Layers:**
+- Dense(512, activation='relu'): 512 neurons with ReLU activation.
+- Dropout(0.5): Another dropout layer for regularization to further prevent overfitting.
+
+**Output Layer:**
+- Dense(4, activation='linear'): Output layer with 4 neurons corresponding to bounding box coordinates (xmin, ymin, xmax, ymax) for regression. Linear activation is used since this is a regression task.
+
+**Key Points:**
+- Convolutional layers extract hierarchical features from the input image.
+- Max pooling layers down-sample the spatial dimensions.
+- Dropout layers help prevent overfitting.
+- The final dense layers map the extracted features to bounding box coordinates.
+- Smooth L1 loss is typically used for regression tasks like bounding box prediction.
+- This architecture aims to balance complexity for feature extraction and regularization to create an effective model for object detection tasks.
+
+## Model #2
+
+**Input Layer:**
+- Input shape: (300, 300, 3) representing a 300x300 pixel image with 3 color channels (RGB).
+
+**Feature Extraction Backbone:**
+- Conv2D(32, (3, 3), activation='relu'): 32 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling with a 2x2 pool size to down-sample the spatial dimensions.
+- Dropout(0.25): Regularization layer to prevent overfitting.
+- Conv2D(64, (3, 3), activation='relu'): 64 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Dropout(0.25): Regularization layer.
+- Conv2D(128, (3, 3), activation='relu'): 128 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Dropout(0.25): Regularization layer.
+- Conv2D(256, (3, 3), activation='relu'): 256 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Dropout(0.25): Regularization layer.
+- Conv2D(512, (3, 3), activation='relu'): 512 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Dropout(0.25): Regularization layer.
+- Conv2D(512, (3, 3), activation='relu'): Another set of 512 filters with ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Dropout(0.25): Regularization layer.
+
+**Global Average Pooling Layer:**
+- GlobalAveragePooling2D(): Aggregates spatial information by computing the average of each feature map.
+
+**Fully Connected (Dense) Layers:**
+- Dense(512, activation='relu'): 512 neurons with ReLU activation.
+- Dropout(0.5): Regularization layer to prevent overfitting.
+
+**Output Layer:**
+- Dense(4, activation='linear'): Output layer with 4 neurons corresponding to bounding box coordinates (xmin, ymin, xmax, ymax) for regression. Linear activation is used since this is a regression task.
+
+**Key Points:**
+- The architecture uses multiple convolutional layers for hierarchical feature extraction.
+- Dropout layers are employed for regularization.
+- Global Average Pooling is used to reduce spatial dimensions before fully connected layers.
+- Dense layers map the features to bounding box coordinates.
+- Linear activation is used in the output layer for regression.
+- This architecture is designed for object detection with bounding box regression and emphasizes feature extraction through a deep convolutional backbone.
+
+## Model #3: Batch Normalization and Regularization
+
+**Input Layer:**
+- Input shape: (300, 300, 3) representing a 300x300 pixel image with 3 color channels (RGB).
+
+**Convolutional Blocks:**
+- Conv2D(32, (3, 3), activation='relu'): 32 filters of size 3x3, ReLU activation.
+- BatchNormalization(): Normalizes the activations of the previous layer for each batch.
+- MaxPooling2D((2, 2)): Max pooling with a 2x2 pool size to down-sample spatial dimensions.
+- Dropout(0.25): Regularization layer to prevent overfitting.
+- Conv2D(64, (3, 3), activation='relu'): 64 filters of size 3x3, ReLU activation.
+- BatchNormalization(): Normalization layer.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Dropout(0.25): Regularization layer.
+- Conv2D(128, (3, 3), activation='relu'): 128 filters of size 3x3, ReLU activation.
+- BatchNormalization(): Normalization layer.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+- Dropout(0.25): Regularization layer.
+
+**Flatten Layer:**
+- Flatten(): Flattens the input to prepare for fully connected layers.
+
+**Fully Connected (Dense) Layers:**
+- Dense(256, activation='relu', kernel_regularizer='l2'): 256 neurons with ReLU activation and L2 regularization.
+- BatchNormalization(): Normalization layer.
+- Dropout(0.5): Regularization layer to prevent overfitting.
+
+**Output Layer:**
+- Dense(4, activation='linear'): Output layer with 4 neurons corresponding to bounding box coordinates (xmin, ymin, xmax, ymax) for regression. Linear activation is used since this is a regression task.
+
+**Key Points:**
+- Convolutional blocks include Batch Normalization after each convolutional and pooling layer.
+- L2 regularization is applied to the first fully connected layer.
+- Dropout layers are used for regularization throughout the network.
+- The architecture aims to improve training stability and convergence through normalization techniques (Batch Normalization) and regularization
+
+.
+- This architecture incorporates batch normalization to stabilize and accelerate the training process and dropout layers for regularization. L2 regularization is applied to the first fully connected layer to control overfitting.
+
+## Model #4
+
+**Input Layer:**
+- Input shape: (300, 300, 3) representing a 300x300 pixel image with 3 color channels (RGB).
+
+**Convolutional Blocks:**
+- Conv2D(32, (3, 3), activation='relu'): 32 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling with a 2x2 pool size to down-sample spatial dimensions.
+- Conv2D(64, (3, 3), activation='relu'): 64 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+
+**Flatten Layer:**
+- Flatten(): Flattens the input to prepare for fully connected layers.
+
+**Fully Connected (Dense) Layers:**
+- Dense(128, activation='relu'): 128 neurons with ReLU activation.
+- Dense(4, activation='linear'): Output layer with 4 neurons corresponding to bounding box coordinates (xmin, ymin, xmax, ymax) for regression. Linear activation is used since this is a regression task.
+
+**Key Points:**
+- Convolutional blocks followed by max-pooling layers are used for feature extraction and down-sampling.
+- The Flatten layer prepares the data for fully connected layers.
+- The first fully connected layer has 128 neurons with ReLU activation.
+- The output layer has 4 neurons with linear activation for bounding box regression.
+
+## Model #5
+
+**Input Layer:**
+- Input shape: (300, 300, 3) representing a 300x300 pixel image with 3 color channels (RGB).
+
+**Convolutional Blocks:**
+- Conv2D(32, (3, 3), activation='relu'): 32 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling with a 2x2 pool size to down-sample spatial dimensions.
+- Conv2D(64, (3, 3), activation='relu'): 64 filters of size 3x3, ReLU activation.
+- MaxPooling2D((2, 2)): Max pooling for down-sampling.
+
+**Flatten Layer:**
+- Flatten(): Flattens the input to prepare for fully connected layers.
+
+**Fully Connected (Dense) Layers:**
+- Dense(256, activation='relu'): 256 neurons with ReLU activation.
+- Dense(128, activation='relu'): 128 neurons with ReLU activation.
+- Dense(64, activation='relu'): 64 neurons with ReLU activation.
+- Dense(4, activation='linear'): Output layer with 4 neurons corresponding to bounding box coordinates (xmin, ymin, xmax, ymax) for regression. Linear activation is used since this is a regression task.
+
+**Key Points:**
+- Convolutional blocks followed by max-pooling layers are used for feature extraction and down-sampling.
+- The Flatten layer prepares the data for fully connected layers.
+- Additional dense layers (256, 128, 64 neurons) are added to enhance the capacity of the model.
+- The output layer remains with 4 neurons for bounding box regression with linear activation.
+
+**Note:**
+- The additional dense layers may capture more complex patterns but could also lead to overfitting, so regularization techniques or adjustments may be needed based on specific dataset characteristics and training performance.
+
 
 ### License
 
