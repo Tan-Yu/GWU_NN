@@ -3,6 +3,40 @@
 ### Overview
 
 This Git repository contains code for a furniture detection project using TensorFlow. The project involves importing necessary libraries, preparing the dataset, and experimenting with different convolutional neural network (CNN) models for furniture detection. The goal is to identify and locate furniture items within images.
+## Experiment Conclusion
+
+After conducting a series of experiments with different model architectures and compilation methods, the following findings were observed:
+
+### Experimental Setup
+
+The experiments involved variations in both model architectures and compilation methods, exploring different combinations to identify the most effective model for the furniture detection task.
+
+### Experiment Results
+
+The performance of each model, as measured by training metrics and computational efficiency, was evaluated for the following permutations:
+
+1. Model #1 + Compile Model #1
+2. Model #2 + Compile Model #1
+3. Model #3 + Compile Model #1
+4. Model #4 + Compile Model #1
+5. Model #5 + Compile Model #1
+6. Model #1 + Compile Model #2
+7. Model #2 + Compile Model #2
+8. Model #3 + Compile Model #2
+9. Model #4 + Compile Model #2
+10. Model #5 + Compile Model #2
+
+### Conclusion
+
+After careful analysis, it was concluded that permutation 8, involving Model #4 with Compile Model #2, demonstrated the best performance for the furniture detection task. This combination struck a balance between model complexity, training efficiency, and computational resources.
+
+### Comparison with Model #5
+
+Although Model #5 with Compile Model #2 also showed promising results, it was noted that this model has approximately twice as many parameters compared to Model #4 with Compile Model #2. This increased parameter count makes Model #5 more computationally expensive to train.
+
+### Recommendations
+
+Based on these findings, it is recommended to use Model #4 with Compile Model #2 for furniture detection, as it provides a good trade-off between performance and computational efficiency. However, individual considerations such as available computational resources and specific task requirements may influence the final choice of model architecture and compilation method.
 
 ### Getting Started
 
@@ -259,6 +293,41 @@ Configures the model for training. It uses the Adam optimizer with a learning ra
 **Key Points:**
 - The first model utilizes Huber loss, a robust regression loss, and evaluates accuracy as a metric during training.
 - The second model incorporates an exponential decay learning rate schedule to dynamically adjust the learning rate during training.
+
+# Experiment Conclusion
+
+After conducting a series of experiments with different model architectures and compilation methods, the following findings were observed:
+
+### Experimental Setup
+
+The experiments involved variations in both model architectures and compilation methods, exploring different combinations to identify the most effective model for the furniture detection task.
+
+### Experiment Results
+
+The performance of each model, as measured by training metrics and computational efficiency, was evaluated for the following permutations:
+
+1. Model #1 + Compile Model #1
+2. Model #2 + Compile Model #1
+3. Model #3 + Compile Model #1
+4. Model #4 + Compile Model #1
+5. Model #5 + Compile Model #1
+6. Model #1 + Compile Model #2
+7. Model #2 + Compile Model #2
+8. Model #3 + Compile Model #2
+9. Model #4 + Compile Model #2
+10. Model #5 + Compile Model #2
+
+## Conclusion
+
+After careful analysis, it was concluded that permutation 8, involving Model #4 with Compile Model #2, demonstrated the best performance for the furniture detection task. This combination struck a balance between model complexity, training efficiency, and computational resources.
+
+### Comparison with Model #5
+
+Although Model #5 with Compile Model #2 also showed promising results, it was noted that this model has approximately twice as many parameters compared to Model #4 with Compile Model #2. This increased parameter count makes Model #5 more computationally expensive to train.
+
+## Recommendations
+
+Based on these findings, it is recommended to use Model #4 with Compile Model #2 for furniture detection, as it provides a good trade-off between performance and computational efficiency. However, individual considerations such as available computational resources and specific task requirements may influence the final choice of model architecture and compilation method.
 
 
 ## License
