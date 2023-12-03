@@ -295,10 +295,6 @@ Although Model #5 with Compile Model #2 also showed promising results, it was no
 Based on these findings, it is recommended to use Model #4 with Compile Model #2 for furniture detection, as it provides a good trade-off between performance and computational efficiency. However, individual considerations such as available computational resources and specific task requirements may influence the final choice of model architecture and compilation method.
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
 ## Acknowledgments
 
 Special thanks to the open-source community for providing valuable resources and tools used in this project.
