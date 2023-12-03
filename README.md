@@ -38,11 +38,11 @@ Although Model #5 with Compile Model #2 also showed promising results, it was no
 
 Based on these findings, it is recommended to use Model #4 with Compile Model #2 for furniture detection, as it provides a good trade-off between performance and computational efficiency. However, individual considerations such as available computational resources and specific task requirements may influence the final choice of model architecture and compilation method.
 
-### Getting Started
+## Getting Started
 
 To get started with the project, follow the instructions below:
 
-#### Import Libraries
+### Import Libraries
 
 Make sure you have the required libraries installed. You can install them using the following:
 
@@ -50,7 +50,7 @@ Make sure you have the required libraries installed. You can install them using 
 pip install opencv-python numpy pandas tensorflow matplotlib
 ```
 
-#### Data Preparation
+### Data Preparation
 
 1. Set the dataset path by updating the `data_path` variable in the script to point to your dataset directory.
 
@@ -81,10 +81,9 @@ train_generator = datagen.flow_from_dataframe(...)
 valid_generator = datagen.flow_from_dataframe(...)
 ```
 
-### Experimenting with Models
+# Experimenting with Models
 
 The repository includes experiments with various CNN models for furniture detection. The script explores different architectures, including convolutional layers, pooling, flattening, dense layers, dropout, batch normalization, and more. Additionally, it employs the Adam optimizer, early stopping, and learning rate reduction techniques for model training.
-# Experimented Models
 
 ## Model #1
 
