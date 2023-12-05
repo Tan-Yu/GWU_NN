@@ -284,7 +284,7 @@ The performance of each model, as measured by training metrics and computational
 
 ## Conclusion
 
-After careful analysis, it was concluded that permutation 8, involving Model #4 with Compile Model #2, demonstrated the best performance for the furniture detection task. This combination struck a balance between model complexity, training efficiency, and computational resources.
+After careful analysis, it was concluded that permutation 5, involving Model #5 with Compile Model #1, demonstrated the best performance for the furniture detection task. This combination struck a balance between model complexity, training efficiency, and computational resources.
 
 ### Comparison with Model #5
 
